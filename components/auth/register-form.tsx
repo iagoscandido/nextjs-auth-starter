@@ -54,7 +54,9 @@ export function RegisterForm({
           toast.success("Account created successfully!");
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message);
+          toast.error("Something went wrong!", {
+            description: ctx.error.message,
+          });
         },
       },
     );

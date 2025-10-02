@@ -52,7 +52,9 @@ export function LoginForm({
           router.push("/profile");
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message);
+          toast.error("Something went wrong!", {
+            description: ctx.error.message,
+          });
         },
       },
     );
