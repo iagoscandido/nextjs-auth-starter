@@ -22,7 +22,7 @@ model User {
   accounts Account[]
 
   @@unique([email])
-  @@map("users")
+  @@map("user")
 }
 
 model Session {
@@ -39,7 +39,7 @@ model Session {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
-  @@map("sessions")
+  @@map("session")
 }
 
 model Account {
@@ -60,7 +60,7 @@ model Account {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("accounts")
+  @@map("account")
 }
 
 model Verification {
@@ -72,5 +72,5 @@ model Verification {
   value      String
   expiresAt  DateTime
 
-  @@map("verifications")
+  @@map("verification")
 }
