@@ -12,7 +12,9 @@ export const SignOutButton = () => {
     await signOut({
       fetchOptions: {
         onError(ctx) {
-          toast.error(ctx.error.message);
+          toast.error("Something went wrong!", {
+            description: ctx.error.message,
+          });
         },
         onSuccess() {
           toast.success("Signed out successfully");
