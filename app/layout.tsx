@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Providers from "@/lib/providers";
 import "./globals.css";
-import HomeButton from "@/components/home-button";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-lt-installed>
       <body>
-        <nav className="flex my-2 items-center justify-center gap-2">
-          <HomeButton href="/" />
-        </nav>
         <Providers>{children}</Providers>
       </body>
     </html>

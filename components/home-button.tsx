@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 
 export type HomeButtonProps = {
   href?: string;
+  className?: string;
 };
-const HomeButton = ({ href = "/" }: HomeButtonProps) => {
+const HomeButton = ({ href = "/", className }: HomeButtonProps) => {
   return (
-    <Button variant={"outline"} size={"icon"} asChild>
+    <Button className={className} variant={"outline"} size={"icon"} asChild>
       <Link href={href}>
         <HomeIcon />
       </Link>

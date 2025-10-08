@@ -8,14 +8,14 @@ import {
   CardHeading,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 
 const ProfilePage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (!session) return redirect("/auth/login");
+  if (!session) return redirect("/login");
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <SignOutButton />

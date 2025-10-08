@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signUp } from "@/lib/auth-client";
+import { signUpEmailAction } from "@/lib/actions/sign-up-email.action";
 import { cn } from "@/lib/utils";
 
 export function RegisterForm({
@@ -21,44 +21,22 @@ export function RegisterForm({
   // function to handle submit form data
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsPending(true);
+
     // this const creates a new inscance of FormData
     const formData = new FormData(e.currentTarget);
 
     // Simple validation
-    const name = formData.get("name");
-    if (!name) return toast.warning("Name is required");
-    const email = formData.get("email");
-    if (!email) return toast.warning("Email is required");
-    const password = formData.get("password");
-    if (!password) return toast.warning("Password is required");
+    const { error } = await signUpEmailAction(formData);
 
-    // Call the signUp function from the client-side library
-    await signUp.email(
-      {
-        name: name as string,
-        email: email as string,
-        password: password as string,
-      },
-      {
-        onRequest: () => {
-          toast.loading("Creating account...");
-          setIsPending(true);
-        },
-        onResponse: () => {
-          toast.dismiss();
-          setIsPending(false);
-        },
-        onSuccess: () => {
-          toast.success("Account created successfully!");
-          router.push("/profile");
-        },
-        onError: (ctx) => {
-          toast.error("Something went wrong!", {
-            description: ctx.error.message,
-          });
-        },
-      },
-    );
+    if (error) {
+      toast.error(error);
+      setIsPending(false);
+    } else {
+      toast.success("Account created successfully!");
+      router.push("/profile");
+    }
   };
 
   return (
@@ -69,6 +47,9 @@ export function RegisterForm({
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Create an account</h1>
+                <p className="text-muted-foreground text-balance">
+                  Create your Acme Inc account
+                </p>
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="name">Name</Label>
@@ -88,7 +69,12 @@ export function RegisterForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" name="password" />
+                <Input
+                  id="password"
+                  type="password"
+                  name="password"
+                  autoComplete="current-password"
+                />
               </div>
               <Button type="submit" className="w-full" disabled={isPending}>
                 Register
